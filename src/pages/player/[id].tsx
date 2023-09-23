@@ -22,9 +22,12 @@ export default function Player() {
   }, {
     skip: !Boolean(player)
   })
-  
+
   return (
-    <Flex direction="column" gap={10}>
+    <Flex 
+      gap={10}
+      direction="column"
+    >
       <Card bg="dark" c="white">
       {
         getPlayerLoading ?
@@ -33,7 +36,13 @@ export default function Player() {
         <Text>Error fetching player data :(</Text>
         :
         <>
-          <Flex gap={10}>
+          <Flex 
+            gap={10}
+            direction={{
+              base: 'column',
+              sm: 'row'
+            }}
+          >
             <Image src={player.card.wide} />
             <Flex direction="column">
               <Title order={1}>{player.name}</Title>
@@ -102,24 +111,38 @@ function RecentMatch({ match }: { match: MatchData }) {
   }, [playerData])
 
   return (
-    <Grid 
+    <Flex 
       align="center"
-      grow={true}
+      justify="space-between"
       bg={gameWon ? 'red' : 'green'}
+      gap={50}
+      direction={{
+        base: 'column',
+        sm:'row',
+      }}
       pr={10}
     >
-      <Grid.Col span={4}>
-        <Flex align="center" gap={10}>
+      <Flex
+        align="center"
+        justify="space-between"
+        w="100%"
+      >
+        <Flex 
+          align="center" 
+          gap={10}
+          justify="space-between"
+        >
           <Image src={iconUrl} w={80} h="auto" fit="cover" />
           <Flex direction="column">
             <Title order={3}>{playerData?.character}</Title>
             <Title order={4} fw="normal">{match.metadata.map}</Title>
           </Flex>
         </Flex>
-      </Grid.Col>
 
-      <Grid.Col span={1}>
-        <Flex justify="space-between">
+        <Flex 
+          justify="space-between"
+          w={75}
+        >
           <Flex direction="column" align="center">
             <Text>K</Text>
             <Text>{playerData?.stats.kills}</Text>
@@ -133,15 +156,16 @@ function RecentMatch({ match }: { match: MatchData }) {
             <Text>{playerData?.stats.assists}</Text>
           </Flex>
         </Flex>
-      </Grid.Col>
+      </Flex>
 
-      <Grid.Col span={6}>
-        <Flex direction="column" align="flex-end">
-          <Text>{duration}</Text>
-          <Text>{match.metadata.game_start_patched}</Text>
-        </Flex>
-      </Grid.Col>
-
-    </Grid>
+      <Flex 
+        direction="column" 
+        align="flex-end"
+        w="100%"
+      >
+        <Text>{duration}</Text>
+        <Text>{match.metadata.game_start_patched}</Text>
+      </Flex>
+    </Flex>
   )
 }
